@@ -51,6 +51,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -144,6 +145,62 @@ public class Preprocessing{
 				super2dArray.add(tempString);
 			}
 			System.out.println(super2dArray.size());
+			
+			//make CSV file of avg ratings
+			ArrayList<ArrayList<String>> ratingsOutput = new ArrayList<ArrayList<String>>();
+			for(int i=0; i<super2dArray.size(); i++){
+				double avgRating = 0;
+				int counter = 0;
+				double cumulative = 0;
+				for(int j=1; j<super2dArray.get(i).size(); j++){
+					if(Double.parseDouble(super2dArray.get(i).get(j).trim())>0){
+						counter++;
+						cumulative += Double.parseDouble(super2dArray.get(i).get(j).trim());
+					}
+				}
+				avgRating = cumulative/counter;
+				ArrayList<String> tempString1 = new ArrayList<String>();
+				tempString1.add(super2dArray.get(i).get(0));
+				tempString1.add(Double.toString(avgRating));
+				ratingsOutput.add(tempString1);
+			}
+			//recalculate on 1 to 5 scale
+			//first find highest number
+			double max = 0;
+		    for(int j=0; j<ratingsOutput.get(1).size(); j++){
+		    		ratingsOutput.get(1).get(j);
+		    		if(Double.parseDouble(ratingsOutput.get(1).get(j)) > max){
+		    			max = Double.parseDouble(ratingsOutput.get(1).get(j));
+		    			System.out.println("The max is " + max);
+		    	}
+		    }
+		    for(int j=0; j<ratingsOutput.size(); j++){
+	    		System.out.println("Got here");
+	    		double tempDouble = 5*Double.parseDouble(ratingsOutput.get(j).get(1).trim())/max;
+	    		tempDouble = tempDouble*10;
+	    		double tempDouble2 = (double)Math.round(tempDouble);
+	    		System.out.println(tempDouble);
+	    		System.out.println(tempDouble2);
+	    		ratingsOutput.get(j).set(1, Double.toString(tempDouble2));
+	    	}
+	    
+		    
+			
+			
+			//write ratings to a file
+			File file = new File("ratings.csv");
+		    file.createNewFile();
+		    FileWriter writer = new FileWriter(file); 
+		    for(int i=0; i<ratingsOutput.size(); i++){
+		    	for(int j=0; j<ratingsOutput.get(i).size(); j+=2){
+		    		int r1 = (int) (Math.random()*90000)+10000;
+		    		writer.write(r1+","+ratingsOutput.get(i).get(j)+","+ratingsOutput.get(i).get(j+1)+"\n"); 
+		    	}
+		    }
+		    writer.flush();
+    		writer.close();
+			
+			
 			for (int j=0; j<super2dArray.size(); j++){
 				final boolean result = vc.open("videos/"+super2dArray.get(j).get(0)+".mp4");
 				if(!result) System.out.println("There was an error loading the file "+super2dArray.get(j).get(0)+".mp4");
