@@ -45,15 +45,13 @@ public class EEGVideoEvaluator {
 
 		/********** Uncomment the line that matches the data set under test **********/
 
-		// YAHOO_MUSIC_DATASET;
-		System.out.println("Here");
 		DataModel dataModel = InterestLevelDataModel.generateDataModel(1);
-	
+
 		/********** Uncomment the line to run the demo you like **********/
 
-	//	runUserBasedRecommender(dataModel);
-		runItemBasedRecommender(dataModel);
-		/*	runALSSVDRecommender(dataModel);
+		runUserBasedRecommender(dataModel);
+	/*	runItemBasedRecommender(dataModel);
+		runALSSVDRecommender(dataModel);
 
 		runItemBasedDemo(dataModel, "pearson", 0.9, 0.1);
 		runItemBasedDemo(dataModel, "likelyhood", 0.9, 1.0);
@@ -70,7 +68,7 @@ public class EEGVideoEvaluator {
 		runItemBasedDemo(dataModel, "uncenteredcosine", 0.7, 1.0);
 
 		*//********** Uncomment the line to run with the threshold value you like **********//*
-		
+
 		runUserRecommender(dataModel, 0, 0.7, 0.7, 1.0, 2, "pearson");
 		runUserRecommender(dataModel, 0, 0.7, 0.7, 1.0, 2, "likelyhood");
 		runUserRecommender(dataModel, 0, 0.7, 0.7, 1.0, 2, "tanimoto");
@@ -382,7 +380,7 @@ public class EEGVideoEvaluator {
 					userSimilarity, n);
 		} else {
 			System.out.println("Threshold value = " + threshold);
-			
+
 			neighborhood = RecommParametersMeasures.getThreshold(dataModel,
 					userSimilarity, threshold);
 		}
