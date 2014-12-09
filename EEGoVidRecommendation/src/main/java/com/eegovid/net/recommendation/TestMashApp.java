@@ -22,7 +22,8 @@ public class TestMashApp {
 
 			HttpResponse<JsonNode> response = imageRequest(imageUrl);
 			System.out.println(response.getBody());
-			String token = response.getBody().getArray().getJSONObject(0).getString("token");
+			String token = response.getBody().getArray().getJSONObject(0)
+					.getString("token");
 			System.out.println("token is " + token);
 
 			String imageFeatures = imageFeatureResponse(token);
@@ -38,28 +39,28 @@ public class TestMashApp {
 
 	}
 
-	public static HttpResponse<JsonNode> imageRequest(String imageUrl) throws UnirestException {
+	public static HttpResponse<JsonNode> imageRequest(String imageUrl)
+			throws UnirestException {
 		HttpResponse<JsonNode> response = Unirest
 				.post("https://camfind.p.mashape.com/image_requests")
 				.header("X-Mashape-Key",
 						"Put Your Key here")
 				.header("Content-Type", "application/x-www-form-urlencoded")
-				.field("focus[x]", "480")
-				.field("focus[y]", "640")
+				.field("focus[x]", "480").field("focus[y]", "640")
 				.field("image_request[altitude]", "27.912109375")
 				.field("image_request[language]", "en")
 				.field("image_request[latitude]", "35.8714220766008")
 				.field("image_request[locale]", "en_US")
 				.field("image_request[longitude]", "14.3583203002251")
-				.field("image_request[remote_image_url]",
-						imageUrl)
-				.asJson();
+				.field("image_request[remote_image_url]", imageUrl).asJson();
 		return response;
 	}
 
-	public static String imageFeatureResponse(String token) throws UnirestException {
-		//String token = "VC-pOWGX8A2f_17pm_Affg";
+	public static String imageFeatureResponse(String token)
+			throws UnirestException {
+		// String token = "VC-pOWGX8A2f_17pm_Affg";
 		String url = "https://camfind.p.mashape.com/image_responses/" + token;
+		String features;
 
 		HttpResponse<JsonNode> response = Unirest
 				.get(url)
@@ -67,11 +68,22 @@ public class TestMashApp {
 						"Put Your Key here")
 				.asJson();
 
-		System.out.println(response.getBody());
-		String feature = response.getBody().getArray().getJSONObject(0).getString("name");
+		System.out.println("inside the feature response and the response is "
+				+ response.getBody().getArray().getJSONObject(0).getString("status"));
 
-		return feature;
+		System.out.println("Checking if the response completed ");
+		// to handle the delay between request and response
+		while (true) {
+
+			if (response.getBody().getArray().getJSONObject(0).has("name")) {
+				System.out.println("it has name");
+				features = response.getBody().getArray().getJSONObject(0)
+						.getString("name");
+				return features;
+			}
+
+		}
+
 	}
 
 }
-
