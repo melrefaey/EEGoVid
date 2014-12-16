@@ -1,0 +1,17 @@
+{
+	"nodes" : [ {"name" : "nodeA", "group" : 1}, 
+				{"name" : "nodeB", "group" : 1},
+				{"name" : "nodeC", "group" : 1},
+				{"name" : "nodeD", "group" : 1},
+				{"name" : "nodeE", "group" : 1},
+				{"name" : "nodeF", "group" : 1}
+    ],
+
+	"links" : [ {"source" : 1 , "target" : 0, "value" : 3}, 
+				{"source" : 2 , "target" : 0, "value" : 5}, 
+				{"source" : 3 , "target" : 0, "value" : 1}, 
+				{"source" : 4 , "target" : 0, "value" : 3}, 
+				{"source" : 3 , "target" : 2, "value" : 5}, 
+				{"source" : 5 , "target" : 0, "value" : 4}, 
+    ]
+}
